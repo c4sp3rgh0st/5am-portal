@@ -60,6 +60,20 @@ interface WalletScoutStatus {
     credits_remaining?: number | null;
     started_at?: string | null;
   } | null;
+  admissions?: {
+    counts?: {
+      PENDING?: number;
+      APPROVED?: number;
+      REJECTED?: number;
+    };
+    pending?: Array<{
+      candidate_id: number;
+      address: string;
+      score: number | null;
+      classifier_version: string | null;
+      reason: string | null;
+    }>;
+  };
   cost_policy?: {
     strategy?: string;
     model_chain?: string[];
@@ -111,6 +125,7 @@ export async function TradingLabModule() {
   const lastUsage = scout?.last_usage ?? null;
   const classifierCounts = scout?.classifier?.counts ?? {};
   const lastDiscovery = scout?.last_discovery ?? null;
+  const admissionCounts = scout?.admissions?.counts ?? {};
   const dailyBudget = costPolicy.daily_budget_usd ?? 0.25;
   const modelChain = costPolicy.model_chain ?? [
     "openrouter/free",
@@ -296,10 +311,10 @@ export async function TradingLabModule() {
           </div>
 
           <div className={classes.funnel}>
-            <div><span>CANDIDATES</span><strong>{counts.candidate}</strong></div>
             <div><span>WATCH</span><strong>{counts.watch}</strong></div>
-            <div><span>APPROVED</span><strong>{counts.approved}</strong></div>
-            <div><span>REJECTED</span><strong>{counts.rejected}</strong></div>
+            <div><span>RADAR PENDING</span><strong>{admissionCounts.PENDING ?? 0}</strong></div>
+            <div><span>APPROVED</span><strong>{admissionCounts.APPROVED ?? counts.approved}</strong></div>
+            <div><span>REJECTED</span><strong>{admissionCounts.REJECTED ?? counts.rejected}</strong></div>
           </div>
         </article>
         <article className={classes.panel}>
