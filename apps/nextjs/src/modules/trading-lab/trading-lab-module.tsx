@@ -50,6 +50,7 @@ interface WalletScoutStatus {
       WATCH?: number;
       REJECT?: number;
       UNCERTAIN?: number;
+      NEEDS_HELIUS?: number;
     };
   };
   last_discovery?: {
@@ -238,6 +239,10 @@ export async function TradingLabModule() {
           </div>
 
           <div className={classes.classifierStrip}>
+            <div>
+              <span>NEEDS HELIUS</span>
+              <strong>{classifierCounts.NEEDS_HELIUS ?? 0}</strong>
+            </div>
             <div>
               <span>DETERMINISTIC WATCH</span>
               <strong>{classifierCounts.WATCH ?? 0}</strong>
