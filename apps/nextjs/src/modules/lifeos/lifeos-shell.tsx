@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { LifeOsGoals, LifeOsToday } from "./lifeos-dashboard";
 import classes from "./lifeos.module.css";
 
 type Mode = "day" | "night";
@@ -85,17 +86,19 @@ export function LifeOsShell({ section = "today" }: { section?: Section }) {
       </section>
 
       <section className={classes.content}>
-        <article className={classes.placeholder}>
-          <span className={classes.kicker}>{section.toUpperCase()}</span>
-          <h2>{section === "today" ? "Your day starts here." : `${sections.find((item) => item.id === section)?.label} is ready for migration.`}</h2>
-          <p>Native 5AM Life module shell is active. No embedded upstream runtime or separate Homarr chrome is mounted.</p>
-          <div className={classes.statusRow}>
-            <span>Native route</span><span>5AM auth boundary</span><span>Responsive shell</span><span>{mode.toUpperCase()} mode</span>
-          </div>
-        </article>
+        {section === "today" ? <LifeOsToday /> : section === "goals" ? <LifeOsGoals /> : (
+          <article className={classes.placeholder}>
+            <span className={classes.kicker}>{section.toUpperCase()}</span>
+            <h2>{`${sections.find((item) => item.id === section)?.label} is ready for migration.`}</h2>
+            <p>The native shell is ready. This surface is intentionally waiting for its dedicated STEP implementation.</p>
+            <div className={classes.statusRow}>
+              <span>Native route</span><span>5AM auth boundary</span><span>Responsive shell</span><span>{mode.toUpperCase()} mode</span>
+            </div>
+          </article>
+        )}
       </section>
 
-      <footer className={classes.footer}><span>5AM LIFE · LIFEOS</span><span>STEP 2 / NATIVE SHELL</span></footer>
+      <footer className={classes.footer}><span>5AM LIFE · LIFEOS</span><span>STEP 3 / TODAY + GOALS + TASKS</span></footer>
     </main>
   );
 }

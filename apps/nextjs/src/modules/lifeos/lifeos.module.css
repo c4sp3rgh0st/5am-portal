@@ -60,3 +60,66 @@
   .globalNav a { padding-inline: 8px; }
   .footer { flex-direction: column; gap: 4px; }
 }
+
+.lifeGrid { display: grid; grid-template-columns: minmax(0,1fr) 250px; gap: 14px; }
+.primaryPanel,.metricPanel,.completedPanel,.goalsSurface,.goalCard { border: 1px solid rgba(255,255,255,.12); background: rgba(5,14,25,.76); backdrop-filter: blur(18px); box-shadow: 0 16px 36px rgba(0,0,0,.18); }
+.primaryPanel,.goalsSurface { border-radius: 22px; padding: 24px; }
+.panelHeading { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
+.panelHeading h2 { margin: 7px 0 0; font-size: clamp(28px,4vw,46px); line-height: 1; letter-spacing: -.035em; }
+.dateChip { padding: 7px 10px; border: 1px solid rgba(255,195,31,.25); border-radius: 999px; color: var(--gold); font-size: 10px; font-weight: 900; }
+.quickAdd,.goalAdd,.inlineTaskAdd { display: grid; gap: 8px; }
+.quickAdd { grid-template-columns: minmax(0,1fr) 180px 110px auto; margin-top: 22px; }
+.goalAdd { grid-template-columns: minmax(180px,300px) auto; }
+.quickAdd input,.quickAdd select,.goalAdd input,.inlineTaskAdd input { min-width: 0; border: 1px solid rgba(255,255,255,.12); border-radius: 11px; padding: 11px 12px; color: #eef4fb; background: rgba(0,0,0,.24); outline: none; }
+.quickAdd select { color-scheme: dark; }
+.quickAdd input:focus,.goalAdd input:focus,.inlineTaskAdd input:focus { border-color: rgba(255,195,31,.55); }
+.quickAdd button,.goalAdd button,.inlineTaskAdd button { border: 0; border-radius: 11px; padding: 10px 14px; color: #101722; background: var(--gold); font-size: 10px; font-weight: 950; cursor: pointer; }
+.taskList { display: grid; gap: 8px; margin-top: 18px; }
+.taskRow { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; padding: 12px 13px; border: 1px solid rgba(255,255,255,.09); border-radius: 13px; background: rgba(0,0,0,.18); }
+.taskRow[data-priority="high"] { border-left: 3px solid var(--gold); }
+.checkButton,.deleteButton,.goalTop button,.goalTask button { border: 0; color: #d7e1ec; background: transparent; cursor: pointer; }
+.checkButton { width: 28px; height: 28px; border: 1px solid rgba(255,255,255,.15); border-radius: 50%; }
+.deleteButton { font-size: 18px; color: #7f8ea0; }
+.taskCopy { min-width: 0; }
+.taskCopy strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+.taskCopy small { display: block; margin-top: 4px; color: #8393a6; font-size: 9px; }
+.sideColumn { display: grid; gap: 10px; align-content: start; }
+.metricPanel,.completedPanel { border-radius: 16px; padding: 15px; }
+.metricPanel span,.panelMiniTitle { display: block; color: #8393a6; font-size: 9px; font-weight: 900; letter-spacing: .10em; }
+.metricPanel strong { display: block; margin-top: 3px; color: var(--gold); font-size: 34px; line-height: 1; }
+.completedPanel p { margin: 12px 0 0; color: #8393a6; font-size: 11px; }
+.completedPanel button { display: block; width: 100%; margin-top: 8px; border: 0; padding: 0; text-align: left; color: #b9c7d6; background: transparent; font-size: 11px; cursor: pointer; }
+.emptyState { padding: 22px; border: 1px dashed rgba(255,255,255,.15); border-radius: 14px; color: #8ea0b3; font-size: 12px; text-align: center; }
+.goalGrid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; margin-top: 20px; }
+.goalCard { border-radius: 17px; padding: 17px; }
+.goalTop { display: flex; justify-content: space-between; gap: 12px; }
+.goalTop span { color: var(--gold); font-size: 8px; font-weight: 950; letter-spacing: .12em; }
+.goalTop h3 { margin: 5px 0 0; font-size: 18px; }
+.progressTrack { height: 5px; margin-top: 16px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.09); }
+.progressTrack i { display: block; height: 100%; border-radius: inherit; background: var(--gold); }
+.progressMeta { display: flex; justify-content: space-between; margin-top: 6px; color: #8090a2; font-size: 9px; }
+.goalTasks { display: grid; gap: 5px; margin-top: 14px; }
+.goalTask { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: center; padding: 7px 8px; border-radius: 9px; background: rgba(0,0,0,.17); font-size: 11px; }
+.goalTask[data-done="true"] span { color: #778597; text-decoration: line-through; }
+.inlineTaskAdd { grid-template-columns: 1fr auto; margin-top: 10px; }
+.inlineTaskAdd input { padding-block: 8px; font-size: 11px; }
+.inlineTaskAdd button { padding: 7px 11px; }
+
+@media (max-width: 960px) {
+  .lifeGrid { grid-template-columns: 1fr; }
+  .sideColumn { grid-template-columns: repeat(3,1fr); }
+  .completedPanel { grid-column: 1 / -1; }
+  .goalGrid { grid-template-columns: 1fr; }
+  .quickAdd { grid-template-columns: 1fr 1fr; }
+  .quickAdd input { grid-column: 1 / -1; }
+}
+
+@media (max-width: 620px) {
+  .primaryPanel,.goalsSurface { padding: 18px 14px; }
+  .panelHeading { flex-direction: column; align-items: stretch; }
+  .quickAdd,.goalAdd { grid-template-columns: 1fr; }
+  .quickAdd input { grid-column: auto; }
+  .sideColumn { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .metricPanel { padding: 12px; }
+  .metricPanel strong { font-size: 26px; }
+}
