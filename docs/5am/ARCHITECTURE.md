@@ -27,3 +27,21 @@ Trading Lab is the first module. Its backend remains independent at
 
 Homarr-specific homelab tooling will be retained only where useful and
 progressively moved under the OPS surface.
+
+## Trading Lab internal surfaces
+
+Trading Lab is a 5AM Portal module under MONEY. Its internal surfaces are:
+
+- Wallet Radar — live watched-wallet activity
+- Wallet Scout — discovery, evidence synthesis and validation
+- Signals — scored market opportunities
+- Paper — simulated execution
+- Risk — independent controls and telemetry
+
+Wallet Scout is not a separate application. It is an intelligence layer inside
+Trading Lab. Provider adapters remain replaceable. Helius is the on-chain
+verification source; Nansen, GMGN and Birdeye are discovery inputs; OpenRouter
+is the reasoning layer when configured.
+
+The portal consumes Trading Lab through its localhost API and never owns
+trading execution or wallet credentials.
