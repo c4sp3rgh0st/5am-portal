@@ -114,7 +114,6 @@ export async function TradingLabModule() {
   const dailyBudget = costPolicy.daily_budget_usd ?? 0.25;
   const modelChain = costPolicy.model_chain ?? [
     "openrouter/free",
-    "deepseek/deepseek-v4-flash-0731",
     "z-ai/glm-5.3-flash",
   ];
   const metrics = [
