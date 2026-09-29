@@ -44,6 +44,21 @@ interface WalletScoutStatus {
     is_free: boolean;
     created_at: string;
   } | null;
+  classifier?: {
+    version?: string;
+    counts?: {
+      WATCH?: number;
+      REJECT?: number;
+      UNCERTAIN?: number;
+    };
+  };
+  last_discovery?: {
+    provider?: string;
+    status?: string;
+    credits_used?: number | null;
+    credits_remaining?: number | null;
+    started_at?: string | null;
+  } | null;
   cost_policy?: {
     strategy?: string;
     model_chain?: string[];
@@ -93,6 +108,8 @@ export async function TradingLabModule() {
   const costPolicy = scout?.cost_policy ?? {};
   const spendToday = scout?.spend_today_usd ?? 0;
   const lastUsage = scout?.last_usage ?? null;
+  const classifierCounts = scout?.classifier?.counts ?? {};
+  const lastDiscovery = scout?.last_discovery ?? null;
   const dailyBudget = costPolicy.daily_budget_usd ?? 0.25;
   const modelChain = costPolicy.model_chain ?? [
     "openrouter/free",
@@ -191,14 +208,8 @@ export async function TradingLabModule() {
           <div className={classes.scoutFlow}>
             <div>
               <span>DISCOVER</span>
-              <strong>Nansen · GMGN · Birdeye</strong>
-              <small>Candidate sources</small>
-            </div>
-            <i>→</i>
-            <div>
-              <span>REASON</span>
-              <strong>OpenRouter Scout</strong>
-              <small>Evidence synthesis</small>
+              <strong>Nansen CLI</strong>
+              <small>{lastDiscovery?.status ?? "Awaiting first run"}</small>
             </div>
             <i>→</i>
             <div>
@@ -208,9 +219,40 @@ export async function TradingLabModule() {
             </div>
             <i>→</i>
             <div>
+              <span>CLASSIFY · $0</span>
+              <strong>Degen Engine</strong>
+              <small>{scout?.classifier?.version ?? "degen-inspired-v1"}</small>
+            </div>
+            <i>→</i>
+            <div>
+              <span>UNCERTAIN ONLY</span>
+              <strong>OpenRouter</strong>
+              <small>Free-first reasoning</small>
+            </div>
+            <i>→</i>
+            <div>
               <span>ADMIT</span>
               <strong>Wallet Radar</strong>
-              <small>Approved watchlist</small>
+              <small>Manual watch admission</small>
+            </div>
+          </div>
+
+          <div className={classes.classifierStrip}>
+            <div>
+              <span>DETERMINISTIC WATCH</span>
+              <strong>{classifierCounts.WATCH ?? 0}</strong>
+            </div>
+            <div>
+              <span>DETERMINISTIC REJECT</span>
+              <strong>{classifierCounts.REJECT ?? 0}</strong>
+            </div>
+            <div>
+              <span>UNCERTAIN → LLM</span>
+              <strong>{classifierCounts.UNCERTAIN ?? 0}</strong>
+            </div>
+            <div>
+              <span>NANSEN DISCOVERY</span>
+              <strong>{lastDiscovery?.status ?? "NOT RUN"}</strong>
             </div>
           </div>
 
