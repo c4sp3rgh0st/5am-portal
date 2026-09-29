@@ -35,6 +35,14 @@ interface WalletScoutStatus {
     score: number | null;
     reason: string | null;
   }>;
+  spend_today_usd?: number;
+  cost_policy?: {
+    strategy?: string;
+    model_chain?: string[];
+    daily_budget_usd?: number;
+    allow_paid_fallback?: boolean;
+    auto_approve?: boolean;
+  };
 }
 
 async function getHealth(): Promise<TradingHealth | null> {
@@ -74,6 +82,14 @@ export async function TradingLabModule() {
     approved: 0,
     rejected: 0,
   };
+  const costPolicy = scout?.cost_policy ?? {};
+  const spendToday = scout?.spend_today_usd ?? 0;
+  const dailyBudget = costPolicy.daily_budget_usd ?? 0.25;
+  const modelChain = costPolicy.model_chain ?? [
+    "openrouter/free",
+    "deepseek/deepseek-v4-flash-0731",
+    "z-ai/glm-5.3-flash",
+  ];
   const metrics = [
     ["SYSTEM", health?.status ?? "offline"],
     ["MODE", mode],
@@ -186,6 +202,26 @@ export async function TradingLabModule() {
               <span>ADMIT</span>
               <strong>Wallet Radar</strong>
               <small>Approved watchlist</small>
+            </div>
+          </div>
+
+          <div className={classes.costStrip}>
+            <div className={classes.costBadge}>
+              <span>MODEL POLICY</span>
+              <strong>FREE FIRST</strong>
+            </div>
+            <div className={classes.costModels}>
+              {modelChain.map((model, index) => (
+                <div key={model}>
+                  <small>{index === 0 ? "FREE" : "FALLBACK " + index}</small>
+                  <strong>{model}</strong>
+                </div>
+              ))}
+            </div>
+            <div className={classes.costBudget}>
+              <span>SPEND TODAY</span>
+              <strong>{"$" + spendToday.toFixed(4)}</strong>
+              <small>{"cap $" + dailyBudget.toFixed(2) + " / day"}</small>
             </div>
           </div>
 

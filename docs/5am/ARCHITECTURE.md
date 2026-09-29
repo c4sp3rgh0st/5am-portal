@@ -45,3 +45,16 @@ is the reasoning layer when configured.
 
 The portal consumes Trading Lab through its localhost API and never owns
 trading execution or wallet credentials.
+
+### Wallet Scout cost policy
+
+Wallet Scout uses a strict free-first inference policy:
+
+1. `openrouter/free`
+2. `deepseek/deepseek-v4-flash-0731`
+3. `z-ai/glm-5.3-flash`
+
+Paid fallback is bounded by a daily USD budget and per-million-token price ceilings.
+No premium model is permitted outside the configured ceiling without an explicit
+configuration change. Model usage is recorded in `wallet_scout_usage` and surfaced
+inside the Trading Lab Wallet Scout panel.
