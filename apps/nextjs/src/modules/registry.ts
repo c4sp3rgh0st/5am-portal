@@ -1,7 +1,9 @@
 import type { FiveAmModuleManifest } from "./types";
+import { lifeOsModule } from "./lifeos/manifest";
 import { tradingLabModule } from "./trading-lab/manifest";
 
 export const fiveAmModules: FiveAmModuleManifest[] = [
+  lifeOsModule,
   tradingLabModule,
 ];
 
