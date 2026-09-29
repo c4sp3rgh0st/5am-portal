@@ -1,0 +1,70 @@
+.shell {
+  min-height: 100vh;
+  padding: clamp(24px, 5vw, 72px);
+  background:
+    radial-gradient(circle at 50% -10%, rgba(255, 184, 77, 0.22), transparent 35%),
+    linear-gradient(180deg, #17140f 0%, #0b0b0c 55%, #08090a 100%);
+  color: #f7f1e5;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+  max-width: 1180px;
+  margin: 0 auto 36px;
+}
+
+.hero h1 {
+  margin: 4px 0 8px;
+  font-size: clamp(42px, 7vw, 88px);
+  line-height: 0.95;
+}
+
+.hero p { max-width: 680px; opacity: 0.72; }
+.eyebrow { text-transform: uppercase; letter-spacing: 0.18em; }
+.mode {
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 193, 92, 0.45);
+  border-radius: 999px;
+  color: #ffc15c;
+}
+.grid {
+  max-width: 1180px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+.card, .stream {
+  border: 1px solid rgba(255,255,255,0.09);
+  background: rgba(255,255,255,0.035);
+  backdrop-filter: blur(16px);
+  border-radius: 18px;
+}
+.card { padding: 20px; }
+
+.card span, .stream span {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.55;
+}
+.card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 22px;
+  text-transform: uppercase;
+}
+.stream {
+  max-width: 1180px;
+  margin: 12px auto 0;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+.stream strong { display: block; margin-top: 6px; font-size: 24px; }
+.stream p { opacity: 0.58; }
