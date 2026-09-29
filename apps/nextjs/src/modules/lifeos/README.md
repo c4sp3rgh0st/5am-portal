@@ -22,3 +22,11 @@ Upstream donor: https://github.com/lifeos-app/lifeos
 - 24-hour clock without seconds
 - responsive full-viewport shell with normal vertical page scrolling
 - no iframe and no upstream/Homarr chrome inside the module
+
+## STEP 3 MVP
+
+- Today: create, complete and delete tasks
+- Goals: create goals, attach tasks and show computed progress
+- Shared model from `@5am/lifeos-core`
+- Browser persistence under versioned key `5am-lifeos-v1`
+- PostgreSQL/API migration remains a later persistence layer; UI/domain model should not need redesign

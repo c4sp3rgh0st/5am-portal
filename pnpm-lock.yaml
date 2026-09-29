@@ -788,6 +788,9 @@ importers:
 
   apps/nextjs:
     dependencies:
+      '@5am/lifeos-core':
+        specifier: workspace:*
+        version: link:../../packages/lifeos-core
       '@dnd-kit/core':
         specifier: 'catalog:'
         version: 6.3.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)

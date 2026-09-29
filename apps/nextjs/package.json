@@ -101,7 +101,8 @@
     "trpc-to-mcp": "catalog:",
     "use-deep-compare-effect": "catalog:",
     "yaml": "catalog:",
-    "zod": "catalog:"
+    "zod": "catalog:",
+    "@5am/lifeos-core": "workspace:*"
   },
   "devDependencies": {
     "@homarr/tsconfig": "workspace:^0.1.0",
