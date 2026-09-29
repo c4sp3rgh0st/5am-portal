@@ -36,6 +36,14 @@ interface WalletScoutStatus {
     reason: string | null;
   }>;
   spend_today_usd?: number;
+  last_usage?: {
+    model: string;
+    input_tokens: number;
+    output_tokens: number;
+    cost_usd: number;
+    is_free: boolean;
+    created_at: string;
+  } | null;
   cost_policy?: {
     strategy?: string;
     model_chain?: string[];
@@ -84,6 +92,7 @@ export async function TradingLabModule() {
   };
   const costPolicy = scout?.cost_policy ?? {};
   const spendToday = scout?.spend_today_usd ?? 0;
+  const lastUsage = scout?.last_usage ?? null;
   const dailyBudget = costPolicy.daily_budget_usd ?? 0.25;
   const modelChain = costPolicy.model_chain ?? [
     "openrouter/free",
@@ -222,6 +231,21 @@ export async function TradingLabModule() {
               <span>SPEND TODAY</span>
               <strong>{"$" + spendToday.toFixed(4)}</strong>
               <small>{"cap $" + dailyBudget.toFixed(2) + " / day"}</small>
+            </div>
+          </div>
+
+          <div className={classes.lastRun}>
+            <div>
+              <span>LAST MODEL</span>
+              <strong>{lastUsage?.model ?? "NO RUNS YET"}</strong>
+            </div>
+            <div>
+              <span>COST</span>
+              <strong>{lastUsage ? (lastUsage.is_free ? "FREE" : "$" + lastUsage.cost_usd.toFixed(6)) : "—"}</strong>
+            </div>
+            <div>
+              <span>TOKENS</span>
+              <strong>{lastUsage ? lastUsage.input_tokens + " in / " + lastUsage.output_tokens + " out" : "—"}</strong>
             </div>
           </div>
 
