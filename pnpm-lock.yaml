@@ -1518,6 +1518,8 @@ importers:
         specifier: 'catalog:'
         version: 7.0.2
 
+  packages/lifeos-core: {}
+
   packages/core:
     dependencies:
       '@t3-oss/env-nextjs':

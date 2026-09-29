@@ -1,4 +1,4 @@
-export type FiveAmModuleId = "trading-lab";
+export type FiveAmModuleId = "trading-lab" | "lifeos";
 
 export type FiveAmModuleStatus = "active" | "preview" | "disabled";
 
@@ -8,7 +8,7 @@ export interface FiveAmModuleManifest {
   description: string;
   route: string;
   icon: string;
-  group: "money" | "bodywork" | "labs" | "ops";
+  group: "life" | "money" | "bodywork" | "labs" | "ops";
   status: FiveAmModuleStatus;
   requiresAuth: boolean;
   backend?: {
