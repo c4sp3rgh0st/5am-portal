@@ -72,6 +72,30 @@ interface WalletScoutStatus {
       score: number | null;
       classifier_version: string | null;
       reason: string | null;
+      labels?: string[];
+      nansen?: {
+        realized_pnl_usd?: number | null;
+        total_pnl_usd?: number | null;
+        win_rate?: number | null;
+        trades?: number | null;
+        tokens?: number | null;
+        avg_trade_roi?: number | null;
+      };
+      helius?: {
+        verified?: boolean | null;
+        tx_scanned?: number | null;
+        swap_events?: number | null;
+        unique_assets?: number | null;
+        completed_assets?: number | null;
+        avg_hold_time?: number | null;
+        copyability?: number | null;
+        quote_symbols?: string[];
+        parser_version?: string | null;
+      };
+      classifier?: {
+        components?: Record<string, number | boolean | string | null>;
+        confidence?: number | null;
+      };
     }>;
   };
   cost_policy?: {
@@ -126,6 +150,7 @@ export async function TradingLabModule() {
   const classifierCounts = scout?.classifier?.counts ?? {};
   const lastDiscovery = scout?.last_discovery ?? null;
   const admissionCounts = scout?.admissions?.counts ?? {};
+  const pendingAdmissions = scout?.admissions?.pending ?? [];
   const dailyBudget = costPolicy.daily_budget_usd ?? 0.25;
   const modelChain = costPolicy.model_chain ?? [
     "openrouter/free",
@@ -316,6 +341,57 @@ export async function TradingLabModule() {
             <div><span>APPROVED</span><strong>{admissionCounts.APPROVED ?? counts.approved}</strong></div>
             <div><span>REJECTED</span><strong>{admissionCounts.REJECTED ?? counts.rejected}</strong></div>
           </div>
+
+          {pendingAdmissions.length > 0 && (
+            <div className={classes.admissionReview}>
+              <div className={classes.admissionReviewHead}>
+                <div>
+                  <span>RADAR ADMISSION</span>
+                  <strong>Pending review</strong>
+                </div>
+                <b>{pendingAdmissions.length} WAITING</b>
+              </div>
+
+              <div className={classes.admissionGrid}>
+                {pendingAdmissions.map((item) => {
+                  const nansen = item.nansen ?? {};
+                  const helius = item.helius ?? {};
+                  const winRate = nansen.win_rate ?? null;
+                  const pnl = nansen.realized_pnl_usd ?? nansen.total_pnl_usd ?? null;
+                  const hold = helius.avg_hold_time ?? null;
+                  const copyability = helius.copyability ?? null;
+
+                  return (
+                    <article className={classes.admissionCard} key={item.candidate_id}>
+                      <div className={classes.admissionCardTop}>
+                        <div>
+                          <span>#{item.candidate_id}</span>
+                          <strong>{item.address.slice(0, 8)}…{item.address.slice(-6)}</strong>
+                        </div>
+                        <b>{item.score?.toFixed(2) ?? "—"}</b>
+                      </div>
+
+                      <div className={classes.admissionMetrics}>
+                        <div><span>NANSEN PNL</span><strong>{pnl == null ? "—" : "$" + Math.round(pnl).toLocaleString()}</strong></div>
+                        <div><span>WIN RATE</span><strong>{winRate == null ? "—" : (winRate * 100).toFixed(1) + "%"}</strong></div>
+                        <div><span>TRADES</span><strong>{nansen.trades ?? "—"}</strong></div>
+                        <div><span>TOKENS</span><strong>{nansen.tokens ?? "—"}</strong></div>
+                        <div><span>HELIUS SWAPS</span><strong>{helius.swap_events ?? "—"}</strong></div>
+                        <div><span>COPYABILITY</span><strong>{copyability == null ? "—" : Math.round(copyability * 100) + "%"}</strong></div>
+                        <div><span>AVG HOLD</span><strong>{hold == null ? "—" : Math.round(hold) + "s"}</strong></div>
+                        <div><span>ROUTES</span><strong>{helius.quote_symbols?.join(" · ") || "—"}</strong></div>
+                      </div>
+
+                      <div className={classes.admissionReason}>
+                        <span>{item.classifier_version ?? "classifier"}</span>
+                        <p>{item.reason ?? "Awaiting review"}</p>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </article>
         <article className={classes.panel}>
           <div className={classes.panelHead}>
